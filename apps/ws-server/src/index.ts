@@ -4,6 +4,7 @@ import { WebSocketServer } from 'ws';
 
 
  server.on('connection', (socket) => {
+    
     socket.on('message', (message) => {
         console.log('received: %s', message);
     });
