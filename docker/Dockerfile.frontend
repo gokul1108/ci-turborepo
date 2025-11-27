@@ -1,0 +1,19 @@
+FROM node:20-alpine
+
+WORKDIR /bms
+
+COPY ./packages ./packages
+COPY package.json ./package.json
+COPY pnpm*.yaml ./
+COPY turbo.json ./turbo.json
+
+RUN npm install -g pnpm
+
+COPY ./apps/web ./apps/web
+
+RUN pnpm install
+
+EXPOSE 3000
+
+CMD ["npm","run","dev:fe"]
+
