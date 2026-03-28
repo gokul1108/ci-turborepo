@@ -15,10 +15,35 @@ datasource db {
 
 
 model User {
-  id        String   @id @default(cuid())
-  username  String   @unique
-  name      String?
-  password  String
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  bookings  Booking[]
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
+
+model Event {
+  id         Int      @id @default(autoincrement())
+  title      String
+  location   String
+  eventDate  DateTime
+  totalSeats Int
+  bookings   Booking[]
+  createdAt  DateTime @default(now())
+}
+
+model Booking {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  eventId   Int
+  seats     Int
+  status    String
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
+
+  @@index([userId])
+  @@index([eventId])
+}
+
